@@ -1,16 +1,16 @@
+# Sử dụng Maven và JDK 17 để build
 FROM maven:3-openjdk-17 AS build
-WORKDIR /app
 
+WORKDIR /app
 COPY . .
 RUN mvn clean package -DskipTests
 
-
-# Run stage
-
-FROM openjdk:17-jdk-slim
+# Sử dụng OpenJDK 17 để chạy ứng dụng
+FROM openjdk:17
 WORKDIR /app
 
-COPY --from=build /app/target/DrComputer-0.0.1-SNAPSHOT.war drcomputer.war
-EXPOSE 8080
+# Copy file .war đã build từ bước trước
+COPY --from=build /app/target/Tniciu-API-0.0.1-SNAPSHOT.war app.war
 
-ENTRYPOINT ["java","-jar","drcomputer.war"]
+# Chạy ứng dụng Spring Boot
+CMD ["java", "-jar", "app.war"]
