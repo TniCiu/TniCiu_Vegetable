@@ -4,8 +4,11 @@ import Footer from "../../Components/Footer/Footer";
 import PartnerLogos from '../../Components/Footer/Partner/PartnerLogos';
 import Promotion from './Promotion/Promotion';
 import { Box, Grid, Card, CardContent, CardMedia, Typography, Toolbar, useMediaQuery } from '@mui/material';
-import 'swiper/swiper-bundle.css';
-import Swiper from 'swiper/bundle';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination } from 'swiper/modules';
 import ChatAI from '../../Components/ChatAI/ChatAI';
 import { fetchCountCategoriesAPI } from '../../apis';
 
@@ -35,21 +38,12 @@ const Home = () => {
     };
 
     fetchCategoryCounts();
-
-    new Swiper('.swiper-container', {
-      slidesPerView: isMobile ? 2 : 6, // 2 slide trên mobile, 6 trên PC
-      spaceBetween: isMobile ? 10 : 30,
-      pagination: {
-        el: '.swiper-pagination',
-        clickable: true,
-      },
-    });
-  }, [isMobile]);
+  }, []);
 
   return (
     <div>
       <AppBarComponent />
-      
+
       {/* Banner quảng cáo */}
       <Box p={3}>
         <Grid container spacing={3}>
@@ -79,67 +73,70 @@ const Home = () => {
 
       {/* Danh mục sản phẩm */}
       <Box p={3}>
-        <Typography variant="h5" component="div" style={{ fontWeight: 'bold', fontSize: isMobile ? '20px' : '25px' }}>
+        <Typography variant="h5" component="div" sx={{ fontWeight: 'bold', fontSize: isMobile ? '20px' : '25px', mb: 2 }}>
           Danh mục nổi bật
         </Typography>
-        <div className="swiper-container">
-  <div className="swiper-wrapper">
-    {categories.map((category, index) => (
-      <div
-        key={index}
-        className="swiper-slide"
-        style={{
-          backgroundColor: '#f4f6fa',
-          borderRadius: '10px',
-          padding: isMobile ? '3px' : '5px', // Giảm padding trên mobile
-          boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center', // Căn giữa nội dung
-          width: isMobile ? '90px' : '120px', // Giảm kích thước trên mobile
-          height: isMobile ? '110px' : '150px', // Giảm chiều cao trên mobile
-        }}
-      >
-        <div className="item-cate">
-          <img
-            src={category.image}
-            alt={category.title}
-            style={{
-              borderRadius: '100%',
-              width: isMobile ? '60px' : '100px', // Giảm kích thước ảnh trên mobile
-              height: isMobile ? '60px' : '100px',
-            }}
-          />
-          <Typography
-            variant="h6"
-            component="div"
-            style={{
-              fontWeight: 'bold',
-              textAlign: 'center',
-              fontSize: isMobile ? '12px' : '16px', // Giảm font-size trên mobile
-              marginTop: '4px',
-            }}
-          >
-            {category.title}
-          </Typography>
-          <Typography
-            variant="body2"
-            color="textSecondary"
-            style={{
-              fontWeight: 'bold',
-              textAlign: 'center',
-              fontSize: isMobile ? '10px' : '12px', // Giảm font-size số lượng sản phẩm
-            }}
-          >
-            {category.products} sản phẩm
-          </Typography>
-        </div>
-      </div>
-    ))}
-  </div>
-</div>
-
+        <Swiper
+          modules={[ Pagination]} // Import Navigation + Pagination
+          spaceBetween={isMobile ? 10 : 50}
+          slidesPerView={isMobile ? 3 : 6}
+          pagination={{ clickable: true }}
+          style={{
+            position: "relative",
+            paddingBottom: "40px", 
+          }}
+        >
+          {categories.map((category, index) => (
+            <SwiperSlide key={index}>
+              <Box
+                sx={{
+                  backgroundColor: "#f4f6fa",
+                  borderRadius: "10px",
+                  padding: isMobile ? "4px" : "30px",
+                  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: isMobile ? "100px" : "180px",
+                  height: isMobile ? "100px" : "140px",
+                }}
+              >
+                <img
+                  src={category.image}
+                  alt={category.title}
+                  style={{
+                    borderRadius: "100%",
+                    width: isMobile ? "50px" : "90px",
+                    height: isMobile ? "50px" : "90px",
+                  }}
+                />
+                <Typography
+                  variant="h6"
+                  sx={{
+                    fontWeight: "bold",
+                    textAlign: "center",
+                    fontSize: isMobile ? "10px" : "16px",
+                    mt: 1,
+                  }}
+                >
+                  {category.title}
+                </Typography>
+                <Typography
+                  variant="body2"
+                  color="textSecondary"
+                  sx={{
+                    fontWeight: "bold",
+                    textAlign: "center",
+                    fontSize: isMobile ? "8px" : "12px",
+                  }}
+                >
+                  {category.products} sản phẩm
+                </Typography>
+              </Box>
+            </SwiperSlide>
+          ))}
+        </Swiper>
       </Box>
 
       <Promotion />
