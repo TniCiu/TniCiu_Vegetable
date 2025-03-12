@@ -24,12 +24,13 @@ public class WebConfig implements WebMvcConfigurer {
         return new CloudinaryService(cloudName, apiKey, apiSecret);
     }
 
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/api/**")
-                .allowedOrigins("http://localhost:5173")
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                .allowedHeaders("*")
-                .allowCredentials(true);
-    }
+   @Override
+public void addCorsMappings(CorsRegistry registry) {
+    registry.addMapping("/api/**")
+            .allowedOrigins("*") // Cho phép tất cả các FE truy cập
+            .allowedMethods("*") // Cho phép tất cả phương thức HTTP
+            .allowedHeaders("*") // Cho phép tất cả headers
+            .allowCredentials(false); // Không cần credentials (nếu dùng, origin không được là "*")
+}
+
 }
