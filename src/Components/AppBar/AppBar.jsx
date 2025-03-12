@@ -64,7 +64,7 @@ const AppBarComponent = ({ updateCartItems }) => {
   const { isAuthenticated } = useAuth();
   const [cartItems, setCartItems] = useState([]);
   const [mobileOpen, setMobileOpen] = useState(false);
-  
+
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -133,11 +133,21 @@ const AppBarComponent = ({ updateCartItems }) => {
           </IconButton>
 
           {/* Giỏ hàng */}
-          <IconButton color="inherit" href="/customer/ShoppingCart">
+          <IconButton
+            color="inherit"
+            onClick={() => {
+              if (!isAuthenticated) {
+                window.location.href = "/account/login";
+              } else {
+                window.location.href = "/customer/ShoppingCart";
+              }
+            }}
+          >
             <Badge badgeContent={cartItems.length} color="success">
               <ShoppingBagOutlinedIcon />
             </Badge>
           </IconButton>
+
 
           {/* Thông báo */}
           <IconButton color="inherit">
