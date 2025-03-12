@@ -2,12 +2,13 @@ package com.TTT.Tniciu_API.Service;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
-
+import org.springframework.stereotype.Service;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+@Service
 public class CloudinaryService {
     private Cloudinary cloudinary;
 
