@@ -28,7 +28,7 @@ public class VerificationController {
             boolean isVerified = accountService.verifyAccountByTokenAndEmail(token, email);
             if (isVerified) {
                 emailService.sendVerificationSuccessEmail(email);
-                RedirectView redirectView = new RedirectView("http://localhost:5173/", true);
+                RedirectView redirectView = new RedirectView("https://tniciu-vegetable.vercel.app/", true);
                 modelAndView.setView(redirectView);
                 modelAndView.addObject("message", "Account verified successfully.");
                 return modelAndView; // Successful verification and redirect
