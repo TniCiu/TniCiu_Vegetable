@@ -19,7 +19,7 @@ public class EmailService {
 
     public void sendVerificationEmail(String to, String token, String email) throws MessagingException {
         String subject = "Xác nhận đăng ký tài khoản - Tniciu Vegetable";
-        String verificationLink = "https://tniciu-vegetable.vercel.app/verify?token=" + token + "&email=" + email;
+        String verificationLink = "tniciuvegetable-production.up.railway.app/verify?token=" + token + "&email=" + email;
         String content = "<html>"
                 + "<body style='font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;'>"
                 + "<table align='center' width='600' style='background: #ffffff; padding: 20px; border-radius: 10px; box-shadow: 0px 0px 10px #ccc;'>"
