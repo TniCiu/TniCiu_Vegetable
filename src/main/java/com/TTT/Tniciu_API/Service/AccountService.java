@@ -53,33 +53,7 @@ public class AccountService {
         }
 
     }
-    @PostConstruct
-    public void initAdminUser() {
-        String adminEmail = "tincui012@gmail.com";
-        String adminPassword = "Tin2003@";
-
-        Optional<Account> existingAdmin = accountRepository.findByEmail(adminEmail);
-        if (existingAdmin.isEmpty()) {
-            Role adminRole = roleRepository.findByName("Admin").orElseGet(() -> {
-                Role role = new Role();
-                role.setName("Admin");
-                return roleRepository.save(role);
-            });
-
-            Account adminUser = new Account();
-            adminUser.setEmail(adminEmail);
-            adminUser.setPassword(PasswordHasher.hashPassword(adminPassword)); // Sử dụng PasswordHasher cho đồng nhất
-            adminUser.setUsername("TniCiu");
-            adminUser.setEnabled(true);
-            adminUser.setRole(adminRole);
-            adminUser.setCreatedAt(LocalDateTime.now()); // Thêm thời gian tạo
-
-            accountRepository.save(adminUser);
-            System.out.println("✅ Tài khoản admin mặc định đã được tạo!");
-        } else {
-            System.out.println("⚡ Admin đã tồn tại.");
-        }
-    }
+    
     public void signup(Account accountDTO) {
         if (accountRepository.findByEmail(accountDTO.getEmail()).isPresent()) {
             throw new IllegalArgumentException("Email đã tồn tại");
