@@ -80,18 +80,11 @@ public class AccountService {
 
         account.setCreatedAt(LocalDateTime.now());
         accountRepository.save(account);
-
-        // Tạo token xác thực và gửi email
-        String verificationToken = UUID.randomUUID().toString();
-        account.setVerificationToken(verificationToken);
+        account.setEnabled(true);
+        account.setVerificationToken(null);
         accountRepository.save(account);
 
-        try {
-            emailService.sendVerificationEmail(account.getEmail(), verificationToken, account.getEmail());
-        } catch (MessagingException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Không thể gửi email xác thực");
-        }
+
     }
 
 
