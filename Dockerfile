@@ -1,16 +1,22 @@
-# Sử dụng Maven và JDK 17 để build
-FROM maven:3-openjdk-17 AS build
-
+# ===== BUILD STAGE =====
+FROM maven:3-eclipse-temurin-17 AS build
 WORKDIR /app
+
+# Cache dependencies
+COPY pom.xml .
+RUN mvn dependency:go-offline
+
+# Copy source và build
 COPY . .
 RUN mvn clean package -DskipTests
 
-# Sử dụng OpenJDK 17 để chạy ứng dụng
-FROM openjdk:17
+
+# ===== RUN STAGE =====
+FROM eclipse-temurin:17-jdk
 WORKDIR /app
 
-# Copy file .war đã build từ bước trước
-COPY --from=build /app/target/Tniciu-API-0.0.1-SNAPSHOT.war app.war
+COPY --from=build /app/target/*.war app.war
 
-# Chạy ứng dụng Spring Boot
+EXPOSE 8080
+
 CMD ["java", "-jar", "app.war"]
