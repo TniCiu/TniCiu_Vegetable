@@ -30,17 +30,15 @@ public class AccountService {
     private final AccountRepository accountRepository;
     private final RoleRepository roleRepository;
     private final PGPPublicKey pgpPublicKey;
-    private final EmailService emailService;
     private final PGPPrivateKey pgpPrivateKey;
 
     @Autowired
     private CloudinaryService cloudinaryService;
 
     @Autowired
-    public AccountService(AccountRepository accountRepository, RoleRepository roleRepository, EmailService emailService) {
+    public AccountService(AccountRepository accountRepository, RoleRepository roleRepository) {
         this.accountRepository = accountRepository;
         this.roleRepository = roleRepository;
-        this.emailService = emailService;
 
 
         try {
